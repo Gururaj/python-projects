@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  title: "Dino Explorer REST API"
+  description: "REST API for Dino Explorer"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+
+components:
+  schemas:
+    DinoClassifications:
+      type: "object"
+      required:
+        - name
+      properties:
+        title:
+          type: "string"
+        url_link:
+          type: "string"
+        header_info:
+          type: "string"
+        full_info:
+          type: "string"        
+
+paths:
+  /test:
+    get:
+      operationId: "api.api_routes.test"
+      tags:
+        - "Dinos"
+      summary: "Read all the dinosaurs in the database"
+      responses:
+        "200":
+          description: "A list of dinosaurs"
+
+  /get_class:
+    get:
+      operationId: "api.api_routes.dino_class_names"
+      tags:
+        - "Dinos"
+      summary: "Read all the dinosaurs in the database"
+      responses:
+        "200":
+          description: "A list of dinosaurs"
