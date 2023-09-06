@@ -3,6 +3,8 @@ from datetime import datetime
 from flask import abort, make_response
 import requests
 from bs4 import BeautifulSoup
+from .get_dino_names import get_all_dino_names
+from .get_dino_class import getAllClassification
 
 
 def test():
@@ -15,29 +17,10 @@ def dino_class_names():
     objects = getAllClassification(url_link, base)
     return objects
 
-
-def getAllClassification(link, base, count=5):
-    soup = getTheSoup(link)
-    objects = []
-
-    if soup:
-        # Get all tags in the HTML document
-        all_dl_tags = soup.find_all('dl')
-        for tag in all_dl_tags:
-            listItems = tag.find_all('li')
-            for listItem in listItems:
-                href = listItem.find('a')
-                if len(objects) < count:
-                    title = href.get('title')
-                    link = href.get('href')
-                    if title:
-                        full_link = base + link
-                        text = getSub(full_link, ".infobox")
-                        newObject = {"title": title, "link": base +
-                                     link, "header": str(text[0]), "fullInfo": str(text[1])}
-                        objects.append(newObject)
-                else:
-                    break
+def dino_get_names():
+    url_link = "https://en.wikipedia.org/wiki/List_of_dinosaur_genera"
+    base = "https://en.wikipedia.org"
+    objects = get_all_dino_names(url_link, base)
     return objects
 
 
