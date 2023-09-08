@@ -1,3 +1,4 @@
+'''Main file'''
 from flask import render_template_string
 import connexion
 
@@ -7,6 +8,7 @@ app.add_api("swagger.yml")
 
 @app.route("/")
 def index():
+    '''Index method'''
     return render_template_string("GOOD")
 
 

@@ -1,9 +1,11 @@
+'''File to get all dino names'''
 import requests
 from bs4 import BeautifulSoup
 
 
-def getTheSoup(link):
-    response = requests.get(link)
+def get_the_soup(link):
+    '''Using Soup to extract information'''
+    response = requests.get(link, timeout=1000)
     soup = None
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -14,25 +16,26 @@ def getTheSoup(link):
 
 
 def get_all_dino_names(link, base, count=5):
-    soup = getTheSoup(link)
-    objects = []
+    '''Method to get all Dino names'''
+    soup = get_the_soup(link)
+    dino_objects = []
 
     if soup:
-        for tag in soup.find_all("a", {"class": "mw-redirect"}):                          
-          if len(objects) < count:
-              title = tag.get('title')
-              link = tag.get('href')
-              if title:
-                  full_link = base + link                        
-                  newObject = {"title": title, "link": base +
-                                link}
-                  objects.append(newObject)
-          else:
-              break
+        for tag in soup.find_all("a", {"class": "mw-redirect"}):
+            if len(objects) < count:
+                title = tag.get('title')
+                link = tag.get('href')
+                if title:
+                    full_link = base + link
+                    new_object = {"title": title, "link": full_link}
+                    dino_objects.append(new_object)
+            else:
+                break
     return objects
 
+
 if __name__ == "__main__":
-    url_link = "https://en.wikipedia.org/wiki/List_of_dinosaur_genera"
-    base = "https://en.wikipedia.org"
-    objects = get_all_dino_names(url_link, base)
+    URL_LINK = "https://en.wikipedia.org/wiki/List_of_dinosaur_genera"
+    BASE_URL = "https://en.wikipedia.org"
+    objects = get_all_dino_names(URL_LINK, BASE_URL)
     print(objects)
